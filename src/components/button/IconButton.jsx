@@ -1,6 +1,6 @@
 import React from "react";
 import BaseButton from "./BaseButton";
-import Icon from "../icon/Icon";
+import Icon from "../icon/Icon.jsx";
 import { ButtonContent } from "./style";
 
 // 사용 예시:

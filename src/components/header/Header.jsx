@@ -8,12 +8,12 @@ const Header = () => {
     <S.HeaderContainer className='header'>
       <S.HeaderInner className='header-inner'>
         <S.HeaderLeft>  
-          <div className="header-left-logo">
+          <S.Logo>
             <S.Link to="/">
               <S.Img
                 src={`${process.env.PUBLIC_URL}/assets/images/logo.png`} alt="자취연구소" maxWidth={156}/>
             </S.Link>
-          </div>
+          </S.Logo>
           <S.HeaderMenus>
             <S.Link to="/provide">정보제공</S.Link>
             <S.Link to="/community">커뮤니티</S.Link>
