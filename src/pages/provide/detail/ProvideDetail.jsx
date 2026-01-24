@@ -2,7 +2,7 @@ import React from 'react';
 import PostDetailHeader from './PostDetailHeader';
 import PostContentCard from './PostContentCard';
 import BaseButton from '../../../components/button/BaseButton';
-import Icon from '../../../components/icon/Icon';
+import Icon from '../../../components/icon/Icon.jsx';
 import IconButton from '../../../components/button/IconButton';
 
 const ProvideDetail = () => {

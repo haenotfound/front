@@ -1,7 +1,7 @@
-import React from "react";
 import styled, { css } from "styled-components";
 
-const iconMap = {
+// 아이콘 맵
+export const iconMap = {
   bookmark: "bookmark.png",
   "bookmark-active": "bookmark-active.png",
   "bookmark-view": "bookmark-view.png",
@@ -26,7 +26,8 @@ const iconMap = {
   "user-profile": "user-profile.png",
 };
 
-const IconImage = styled.img`
+// Icon 스타일 컴포넌트
+export const IconImage = styled.img`
   display: block;
   width: ${({ size }) => {
     if (typeof size === "number") return `${size}px`;
@@ -53,35 +54,3 @@ const IconImage = styled.img`
   ${({ rotate }) => rotate && `transform: rotate(${rotate}deg);`}
   ${({ onClick }) => onClick && "cursor: pointer;"}
 `;
-
-const Icon = ({ name, src, size = "medium", color, rotate, onClick, alt, ...props }) => {
-  const getPath = () => {
-    if (src) {
-      return src.startsWith("/") || src.startsWith("http")
-        ? src
-        : `${process.env.PUBLIC_URL}/assets/images/icons/${src}`;
-    }
-    if (name) {
-      const fileName = iconMap[name] || name;
-      return `${process.env.PUBLIC_URL}/assets/images/icons/${fileName}`;
-    }
-    return null;
-  };
-
-  const path = getPath();
-  if (!path) return null;
-
-  return (
-    <IconImage
-      src={path}
-      alt={alt || name || "icon"}
-      size={size}
-      color={color}
-      rotate={rotate}
-      onClick={onClick}
-      {...props}
-    />
-  );
-};
-
-export default Icon;
