@@ -1,17 +1,28 @@
-import React from 'react';
-import AdminHeader from './component/AdminHeader';
-import AdminSidebar from './component/AdminSidebar';
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import AdminHeader from "./component/AdminHeader";
+import AdminSidebar from "./component/AdminSidebar";
+import { Outlet } from "react-router-dom";
+import Footer from "../../../components/footer/Footer";
+import FooterS from "../../../components/footer/style";
+import S from "./component/style";
+import styled from "styled-components";
 
-const AdminMyPageLayout = () => {
-  return (
-    <div>
-      <AdminHeader/>
-      <AdminSidebar />
-      관리자 마이페이지 레이아웃
-      <Outlet />
-    </div>
-  );
-};
+const AdminMyPageLayout = styled(({ className }) => {
+	return (
+		<S.AdminLayoutContainer className={className}>
+			<AdminSidebar />
+			<AdminHeader />
+			<S.AdminMain>
+				<Outlet />
+			</S.AdminMain>
+			<Footer />
+		</S.AdminLayoutContainer>
+	);
+})`
+	${FooterS.Footer} {
+		grid-area: foot;
+		border: 1px solid ${({ theme }) => theme.PALLETE.gray.greyscale05};
+	}
+`;
 
 export default AdminMyPageLayout;
