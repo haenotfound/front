@@ -1,6 +1,6 @@
 import React from "react";
 import S from "./style";
-import BaseButton from "../button/style";
+import BaseButton from "../button/BaseButton";
 
 const ProvideBox = () => {
   return (

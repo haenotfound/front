@@ -2,7 +2,7 @@ import React from 'react';
 import S from './style';
 import Title from '../../../components/title/Title';
 import SafetyScoreItem from './SafetyScoreItem';
-import BaseButton from '../../../components/button/style';
+import BaseButton from '../../../components/button/BaseButton';
 import { Link } from 'react-router-dom';
 
 const MainSafetyScore = () => {
