@@ -5,17 +5,20 @@ import kakaoLogo from './img/kakao_login.png';
 import naverLogo from './img/naver_login.png';
 import appleLogo from './img/apple_login.png';
 
+// 마이페이지_소셜 로그인 연동 설정
 const LoginSetting = () => {
+
+  // 기능_애플 로그인 페이지 이동
   const handleAppleLogin = () => {
     window.location.href =
       'https://account.apple.com/sign-in';
   };
-
+  // 기능_카카오 로그인 페이지 이동
   const handleKakaoLogin = () => {
     window.location.href =
       'https://accounts.kakao.com/login/?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fclient_id%3Da48c346f49496ed25298423c4c9da5f0%26response_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fwww.saramin.co.kr%252Fkakao_oauth.php%26state%3D4-42725deac266b43b56874454967d0213%26display%3Dpopup%26through_account%3Dtrue%26auth_tran_id%3DJYOeByn1aH_PtQqMEq-TrKiLVGmSTx1tR2nQP90YChc1VwAAAZv1ZFlM#login';
   };
-
+  // 기능_네이버 로그인 페이지 이동
   const handleNaverLogin = () => {
     window.location.href = 'https://nid.naver.com/nidlogin.login';
   };
@@ -23,6 +26,8 @@ const LoginSetting = () => {
   return (
     <Section>
       <SectionTitle>소셜 로그인 설정</SectionTitle>
+
+      {/* 애플 로그인 버튼 */}
       <ButtonRow>
         <ButtonBox>
           <BaseButton
@@ -45,6 +50,8 @@ const LoginSetting = () => {
             애플 로그인
           </BaseButton>
         </ButtonBox>
+
+        {/* 카카오 로그인 버튼 */}
         <ButtonBox>
           <BaseButton
             shape="rounded"
@@ -66,6 +73,8 @@ const LoginSetting = () => {
             카카오톡 로그인
           </BaseButton>
         </ButtonBox>
+
+        {/* 네이버 로그인 버튼 */}
         <ButtonBox>
           <BaseButton
               shape="rounded"

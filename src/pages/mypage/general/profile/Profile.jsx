@@ -1,8 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import PageHeader from "../component/PageHeader.jsx";
-import TabMenu from "../component/TabMenu.jsx";
+import MyPageTitle from "../component/MyPageTitle.jsx";
+import MyPageTabMenu from "../component/MyPageTabMenu.jsx";
 import InputGroup from "./InputGroup.jsx";
 import BaseButton from "../../../../components/button/BaseButton";
+
+// 임시 사용자 데이터
+const userProfile = {
+  nickname: "프로자취러",
+  email: "Homeguard@gmail.com",
+  bio: "서울시 강남구 역삼동에 사는 자취생입니다!",
+};
+
+// 프로필 데이터 호출
+const fetchUserProfile = () =>
+  new Promise((resolve) => {
+    setTimeout(() => resolve(userProfile), 300);
+  });
 
 const MyProfilePage = () => {
   const [nickname, setNickname] = useState("");
@@ -13,6 +26,7 @@ const MyProfilePage = () => {
 
   const tabs = [{ id: "info", label: "정보" }];
 
+  // 기능_저장 버튼 클릭 시 호출
   const handleSave = () => {
     const payload = { nickname, email, bio, profileImageUrl: previewUrl };
     console.log(payload);
@@ -20,6 +34,7 @@ const MyProfilePage = () => {
     window.alert("저장되었습니다");
   };
 
+  // 기능_취소 버튼 클릭 시 데이터 초기화 및 메모리 해제
   const handleCancel = () => {
     const shouldReset = window.confirm("입력한 내용을 초기화할까요?");
     if (!shouldReset) return;
@@ -45,10 +60,26 @@ const MyProfilePage = () => {
     };
   }, [previewUrl]);
 
+  // 초기 로드 시 사용자 정보 불러오기
+  useEffect(() => {
+    let isMounted = true;
+    fetchUserProfile().then((data) => {
+      if (!isMounted) return;
+      setNickname(data.nickname);
+      setEmail(data.email);
+      setBio(data.bio);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // 이미지_업로드 버튼/아이콘 클릭
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
+  // 이미지_파일 선택 시 미리보기 URL 생성
   const handleFileChange = (event) => {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
@@ -62,9 +93,10 @@ const MyProfilePage = () => {
   };
   return (
     <div style={styles.page}>
-      <PageHeader title="프로필" description="계정정보를 관리하세요" />
-      <TabMenu tabs={tabs} activeId="info" />
+      <MyPageTitle title="프로필" description="계정정보를 관리하세요" />
+      <MyPageTabMenu tabs={tabs} activeId="info" />
 
+      {/* 섹션01_프로필 사진 수정 */}
       <section style={styles.section}>
         <h3 style={styles.sectionTitle}>프로필 사진</h3>
         <div style={styles.profileRow}>
@@ -103,6 +135,7 @@ const MyProfilePage = () => {
         </div>
       </section>
 
+      {/* 섹션01_상세 정보 수정 */}
       <section style={styles.section}>
         <InputGroup
           label="닉네임"
@@ -127,6 +160,8 @@ const MyProfilePage = () => {
           placeholder="띄어쓰기 포함 20자 이내로 입력해주세요."
           marginBottom="30px"
         />
+
+        {/* 하단 버튼 */}
         <div style={styles.actionArea}>
           <button
             type="button"
@@ -164,25 +199,30 @@ const styles = {
   page: {
     padding: "28px 32px 40px",
   },
+
   section: {
     marginBottom: "28px",
   },
+
   sectionTitle: {
     fontSize: "18px",
     fontWeight: 600,
     color: "#0B1215",
     margin: "0 0 12px",
   },
+
   profileRow: {
     display: "flex",
     alignItems: "center",
     gap: "14px",
   },
+
   profileImageWrapper: {
     position: "relative",
     width: "72px",
     height: "72px",
   },
+
   profileImage: {
     width: "76px",
     height: "76px",
@@ -193,12 +233,14 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
   },
+
   profileImagePreview: {
     width: "100%",
     height: "100%",
     objectFit: "cover",
     borderRadius: "50%",
   },
+
   cameraBadge: {
     position: "absolute",
     right: "-2px",
@@ -213,6 +255,7 @@ const styles = {
     justifyContent: "center",
     cursor: "pointer",
   },
+
   uploadButton: {
     height: "30px",
     padding: "0 12px",
@@ -224,15 +267,18 @@ const styles = {
     fontWeight: 600,
     cursor: "pointer",
   },
+  
   hiddenFileInput: {
     display: "none",
   },
+
   actionArea: {
     marginTop: "8px",
     display: "flex",
     alignItems: "center",
     gap: "25px",
   },
+
   cancelButton: {
     height: "40px",
     padding: 0,
@@ -244,6 +290,7 @@ const styles = {
     fontWeight: 600,
     cursor: "pointer",
   },
+  
   saveButton: {
     width: "130px",
   },

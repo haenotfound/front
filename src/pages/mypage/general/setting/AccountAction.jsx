@@ -3,22 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BaseButton from '../../../../components/button/BaseButton';
 
-const AccountAction = () => {
+// 마이페이지_하단 계정 액션 (로그아웃, 저장하기)
+const AccountAction = ({ onSave, onLogout }) => {
   const navigate = useNavigate();
 
+  // 기능_로그아웃 처리
   const handleLogout = () => {
-    const confirmed = window.confirm('로그아웃 하시겠습니까?');
-    if (!confirmed) return;
-    navigate('/');
+    if (onLogout) {
+      onLogout();
+      return;
+    }
+    navigate('/login');
   };
 
+  // 기능_저장 버튼 클릭
   const handleSave = () => {
-    console.log('저장 처리 완료');
+    if (onSave) {
+      onSave();
+      return;
+    }
     window.alert('저장되었습니다.');
   };
 
   return (
     <ActionRow>
+      {/* 로그아웃 버튼 */}
       <WithdrawText onClick={handleLogout}>로그아웃</WithdrawText>
       <ButtonBox>
         <BaseButton

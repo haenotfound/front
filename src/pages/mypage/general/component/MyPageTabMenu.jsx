@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 
-const TabMenu = ({ tabs = [], activeId, onChange }) => {
+// 마이페이지 탭 메뉴
+const MyPageTabMenu = ({ tabs = [], activeId, onChange }) => {
   return (
     <nav style={styles.container}>
       {tabs.map((tab) => {
         const isActive = tab.id === activeId;
+
         return (
           <button
             key={tab.id}
@@ -25,29 +27,32 @@ const TabMenu = ({ tabs = [], activeId, onChange }) => {
 
 const styles = {
   container: {
-    display: 'flex',
-    gap: '24px',
-    borderBottom: '1px solid #E6E8EC',
-    marginBottom: '40px',
+    display: "flex",
+    gap: "24px",
+    borderBottom: "1px solid #E6E8EC",
+    marginBottom: "40px",
   },
+
   buttonBase: {
-    padding: '10px 2px',
-    border: 'none',
-    background: 'none',
-    cursor: 'pointer',
-    fontSize: '18px',
+    padding: "10px 2px",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
+    fontSize: "18px",
     fontWeight: 600,
-    fontFamily: 'inherit',
+    fontFamily: "inherit",
   },
+
   buttonActive: {
-    width: '120px',
-    color: '#2563EB',
-    borderBottom: '2.5px solid #2563EB',
+    width: "120px",
+    color: "#2563EB",
+    borderBottom: "2.5px solid #2563EB",
   },
+  
   buttonInactive: {
-    color: '#B5B5B5',
-    borderBottom: '2px solid transparent',
+    color: "#B5B5B5",
+    borderBottom: "2px solid transparent",
   },
 };
 
-export default TabMenu;
+export default MyPageTabMenu;

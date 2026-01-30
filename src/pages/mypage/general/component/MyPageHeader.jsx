@@ -1,17 +1,28 @@
 import React from "react";
 
+// 마이페이지 헤더
 const MyPageHeader = () => {
   return (
     <header style={headerStyles.bar}>
+      {/* 로고 영역 */}
       <div style={headerStyles.logoArea}>
         <button type="button" style={headerStyles.btn}>
-          <img src="/assets/images/logo.png" alt="로고" style={headerStyles.img} />
+          <img
+            src="/assets/images/logo.png"
+            alt="로고"
+            style={headerStyles.img}
+          />
         </button>
       </div>
 
+      {/* 프로필 영역 */}
       <div style={headerStyles.profileArea}>
         <div style={headerStyles.profileCircle}>
-          <img src="/assets/images/icons/user-profile.png" alt="P" style={headerStyles.pIcon} />
+          <img
+            src="/assets/images/icons/user-profile.png"
+            alt="P"
+            style={headerStyles.pIcon}
+          />
         </div>
         <span style={headerStyles.nickname}>프로자취러</span>
       </div>

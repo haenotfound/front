@@ -1,15 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import PageHeader from '../component/PageHeader.jsx';
-import TabMenu from '../component/TabMenu.jsx';
+import MyPageTitle from '../component/MyPageTitle.jsx';
+import MyPageTabMenu from '../component/MyPageTabMenu.jsx';
 
+// 마이페이지_알림 목록 페이지
 const MyNotificationPage = () => {
+  // 알림 탭 설정
   const tabs = [{ id: 'notify', label: '알림' }];
 
   return (
     <Page>
-      <PageHeader title="알림" description="알림 내역을 확인하세요" />
-      <TabMenu tabs={tabs} activeId="notify" />
+      {/* 헤더_페이지 제목 및 설명 */}
+      <MyPageTitle title="알림" description="알림 내역을 확인하세요" />
+      
+      {/* 탭 메뉴 (알림 단일 탭) */}
+      <MyPageTabMenu tabs={tabs} activeId="notify" />
+      
+      {/* 알림 내역이 없을 때 표시되는 화면 */}
       <EmptyState>
         <EmptyIcon src="/assets/images/icons/mypage-notify.png" alt="알림 없음" />
         <EmptyText>아직 알림이 없습니다.</EmptyText>

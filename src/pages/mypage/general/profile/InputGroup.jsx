@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// 마이페이지_입력 폼 그룹 (라벨, 인풋)
 const InputGroup = ({
   label,
   value,
@@ -9,12 +10,11 @@ const InputGroup = ({
   type = 'text',
   name,
   id,
-  marginBottom, // 👈 외부에서 간격을 조절할 수 있는 props 추가
+  marginBottom,
 }) => {
   const inputId = id || name;
 
   return (
-    // $marginBottom처럼 $를 붙이는 이유는 styled-components 전용 prop임을 명시하기 위함입니다.
     <Container id={inputId} $marginBottom={marginBottom}>
       <Label htmlFor={inputId}>{label}</Label>
       <StyledInput
@@ -29,15 +29,14 @@ const InputGroup = ({
   );
 };
 
-const Container = styled.div` // label 태그 안에 input이 있으면 htmlFor와 충돌할 수 있어 div로 변경 권장
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  /* props가 있으면 그 값을 쓰고, 없으면 기본값 14px 적용 */
   margin-bottom: ${props => props.$marginBottom || '14px'};
 `;
 
-const Label = styled.label` // Label은 span보다 실제 label 태그가 웹 접근성에 좋습니다.
+const Label = styled.label`
   font-size: 16px;
   font-weight: 500;
   color: #666666;

@@ -1,50 +1,60 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import InputGroup from '../profile/InputGroup.jsx';
 
-const PasswordSetting = () => {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+// 마이페이지_비밀번호 변경
+const PasswordSetting = ({
+  currentPassword = "",
+  newPassword = "",
+  confirmPassword = "",
+  onCurrentPasswordChange,
+  onNewPasswordChange,
+  onConfirmPasswordChange,
+}) => {
 
+  // 로직_새 비밀번호 입력란 중 값 여부 확인
   const hasMatchInput = useMemo(
-    () => newPassword.length > 0 || confirmPassword.length > 0,
+    () => (newPassword?.length ?? 0) > 0 || (confirmPassword?.length ?? 0) > 0,
     [newPassword, confirmPassword]
   );
-  const isMatch = newPassword === confirmPassword;
-  const isReadyToSave =
-    currentPassword.length > 0 &&
-    newPassword.length > 0 &&
-    confirmPassword.length > 0 &&
-    isMatch;
 
+  // 로직_새 비밀번호와 확인용 비밀번호가 일치하는지 비교
+  const isMatch = (newPassword ?? '') === (confirmPassword ?? '');
   return (
     <Section>
       <SectionTitle>기본 정보</SectionTitle>
+
+      {/* 현재 비밀번호 입력 */}
       <InputGroup
         label="현재 비밀번호"
         name="currentPassword"
         type="password"
         value={currentPassword}
-        onChange={(event) => setCurrentPassword(event.target.value)}
+        onChange={onCurrentPasswordChange}
         placeholder="현재 비밀번호를 입력해주세요."
       />
+
+      {/* 새 비밀번호 입력 */}
       <InputGroup
         label="새 비밀번호"
         name="newPassword"
         type="password"
         value={newPassword}
-        onChange={(event) => setNewPassword(event.target.value)}
+        onChange={onNewPasswordChange}
         placeholder="새 비밀번호를 입력해주세요."
       />
+
+      {/* 새 비밀번호 확인 입력 */}
       <InputGroup
         label="새 비밀번호 확인"
         name="confirmPassword"
         type="password"
         value={confirmPassword}
-        onChange={(event) => setConfirmPassword(event.target.value)}
+        onChange={onConfirmPasswordChange}
         placeholder="새 비밀번호를 다시 입력해주세요."
       />
+
+      {/* 비밀번호 일치 여부 안내 메시지 (입력값이 있을 때만 노출) */}
       {hasMatchInput ? (
         <HelperText $isMatch={isMatch}>
           {isMatch ? '비밀번호가 일치합니다.' : '비밀번호가 일치하지 않습니다.'}
