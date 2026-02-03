@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import S from "./ModalStyle";
+import S from "./style";
 
 const KAKAO_APP_KEY = process.env.REACT_APP_KAKAO_MAP_KEY;
 const KAKAO_REST_KEY = process.env.REACT_APP_KAKAO_REST_KEY;

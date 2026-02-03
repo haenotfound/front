@@ -17,7 +17,7 @@ S.ModalOverlay = styled.div`
 S.ModalContainer = styled.div`
   width: 100%;
   max-width: ${({ $variant }) => ($variant === "horizontal" ? "980px" : "520px")};
-  background: #ffffff;
+  background: ${({ theme }) => theme.PALLETE.white};
   border-radius: 18px;
   padding: 32px;
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
@@ -31,15 +31,15 @@ S.CloseButton = styled.button`
   border: none;
   background: none;
   font-size: 25px;
-  color: #8d8d8d;
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale04};
   cursor: pointer;
 `;
 
 S.Title = styled.h2`
   margin: 0 0 10px;
-  font-size: 28px;
-  font-weight: 700;
-  color: #0b1215;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h2};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  color: ${({ theme }) => theme.PALLETE.black};
   width: 100%;
   text-align: left;
 `;
@@ -48,13 +48,13 @@ S.Subtitle = styled.p`
   width: 100%;
   text-align: left;
   margin: 0 0 24px;
-  font-size: 16px;
-  color: #8d8d8d;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale04};
 `;
 
 S.Section = styled.div`
   margin-bottom: 20px;
-  color: #666666;
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
 `;
 
 S.Label = styled.label`
@@ -62,9 +62,9 @@ S.Label = styled.label`
   text-align: left;
   display: block;
   margin-bottom: 8px;
-  font-size: 16px;
-  font-weight: 550;
-  color: #666666;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
 `;
 
 S.Input = styled.input`
@@ -72,25 +72,24 @@ S.Input = styled.input`
   padding: 12px 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  font-size: 16px;
-  color: #666666;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
   outline: none;
   transition: border-color 0.2s ease;
   background-color: #fbfbfb;
 
   &:focus {
-    border-color: #2563eb;
+    border-color: ${({ theme }) => theme.PALLETE.primary};
   }
 
   &::placeholder {
-    color: #b5b5b5;
+    color: ${({ theme }) => theme.PALLETE.gray.greyscale03};
   }
 `;
 
 S.MapPanel = styled.div`
-  width: ${({ $width }) => $width || "100%"};
-  height: ${({ $height }) => $height || "234px"};
   width: 100%;
+  height: ${({ $height }) => $height || "234px"};
   min-height: 234px;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
@@ -125,7 +124,7 @@ S.MapPinWrapper = styled.div`
 S.MapPin = styled.div`
   width: 20px;
   height: 20px;
-  background: #2563eb;
+  background: ${({ theme }) => theme.PALLETE.primary};
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   position: relative;
@@ -134,7 +133,7 @@ S.MapPin = styled.div`
     content: "";
     width: 8px;
     height: 8px;
-    background: #ffffff;
+    background: ${({ theme }) => theme.PALLETE.white};
     border-radius: 50%;
     position: absolute;
     top: 6px;
@@ -143,8 +142,8 @@ S.MapPin = styled.div`
 `;
 
 S.MapText = styled.span`
-  font-size: 14px;
-  color: #000000;
+  font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
+  color: ${({ theme }) => theme.PALLETE.black};
   opacity: 40%;
   z-index: 2;
 `;
@@ -152,8 +151,8 @@ S.MapText = styled.span`
 S.MapLink = styled.button`
   border: none;
   background: none;
-  font-size: 14px;
-  color: #2563eb;
+  font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
+  color: ${({ theme }) => theme.PALLETE.primary};
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
@@ -161,8 +160,8 @@ S.MapLink = styled.button`
 `;
 
 S.MapHelper = styled.div`
-  font-size: 14px;
-  color: #000000;
+  font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
+  color: ${({ theme }) => theme.PALLETE.black};
   display: flex;
   justify-content: center;
   gap: 8px;
@@ -187,7 +186,7 @@ S.CheckboxRow = styled.label`
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
   color: #4b5563;
   cursor: pointer;
 `;
@@ -195,7 +194,7 @@ S.CheckboxRow = styled.label`
 S.Checkbox = styled.input`
   width: 18px;
   height: 18px;
-  color: #666666;
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
 `;
 
 S.PrimaryButton = styled.button`
@@ -204,9 +203,9 @@ S.PrimaryButton = styled.button`
   border-radius: 8px;
   border: none;
   font-size: 15px;
-  font-weight: 600;
-  color: ${({ $active }) => ($active ? "#ffffff" : "#ffffff")};
-  background: ${({ $active }) => ($active ? "#356CFF" : "#e5e7eb")};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  color: ${({ theme }) => theme.PALLETE.white};
+  background: ${({ $active, theme }) => ($active ? theme.PALLETE.primary : "#e5e7eb")};
   cursor: ${({ $active }) => ($active ? "pointer" : "not-allowed")};
   transition: all 0.2s ease;
   margin-top: ${({ $stickBottom }) => ($stickBottom ? "auto" : "0")};
@@ -262,8 +261,10 @@ S.ContentTopColumn = styled.div`
 `;
 
 S.ButtonRow = styled.div`
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
 `;
 
 S.ResultPanel = styled.div`
@@ -277,7 +278,7 @@ S.ResultPanel = styled.div`
 `;
 
 S.ResultEmpty = styled.div`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
   color: #9ca3af;
   text-align: center;
   margin-top: 40px;
@@ -295,10 +296,10 @@ S.ResultList = styled.ul`
 S.ResultItem = styled.li`
   padding: 12px;
   border-radius: 10px;
-  background: #ffffff;
-  border: 1px solid ${({ $selected }) => ($selected ? "#2563eb" : "#e5e7eb")};
+  background: ${({ theme }) => theme.PALLETE.white};
+  border: 1px solid ${({ $selected, theme }) => ($selected ? theme.PALLETE.primary : "#e5e7eb")};
   font-size: 13px;
-  color: #666666;
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -306,9 +307,119 @@ S.ResultItem = styled.li`
 `;
 
 S.ResultBadge = styled.span`
-  font-size: 12px;
-  color: #2563eb;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h7};
+  color: ${({ theme }) => theme.PALLETE.primary};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+`;
+
+S.Select = styled.select`
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
+  color: #374151;
+  outline: none;
+  transition: border-color 0.2s ease;
+  background-color: #fbfbfb;
+  cursor: pointer;
+
+  &:focus {
+    border-color: ${({ theme }) => theme.PALLETE.primary};
+  }
+`;
+
+S.Textarea = styled.textarea`
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
+  outline: none;
+  transition: border-color 0.2s ease;
+  background-color: #fbfbfb;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+
+  &:focus {
+    border-color: ${({ theme }) => theme.PALLETE.primary};
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.PALLETE.gray.greyscale03};
+  }
+`;
+
+S.InfoRow = styled.div`
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid ${({ theme }) => theme.PALLETE.gray.greyscale01};
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+S.InfoLabel = styled.span`
+  font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  color: #6b7280;
+  min-width: 80px;
+  flex-shrink: 0;
+`;
+
+S.InfoValue = styled.span`
+  font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
+  color: #374151;
+  word-break: break-word;
+`;
+
+S.SecondaryButton = styled.button`
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  color: #374151;
+  background: ${({ theme }) => theme.PALLETE.white};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+`;
+
+S.ConfirmButton = styled.button`
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+  color: ${({ theme }) => theme.PALLETE.white};
+  background: ${({ theme }) => theme.PALLETE.primary};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+
+  &:disabled {
+    background: #e5e7eb;
+    cursor: not-allowed;
+  }
+`;
+
+S.InfoCard = styled.div`
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
 `;
 
 export default S;
