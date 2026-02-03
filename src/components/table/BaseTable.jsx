@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
 	useReactTable,
 	getCoreRowModel,
@@ -8,6 +9,7 @@ import {
 	flexRender,
 } from "@tanstack/react-table";
 import S from "./style";
+import SelectionFAB from "./SelectionFAB";
 
 export const getSelectColumn = () => ({
 	id: "select",
@@ -39,6 +41,11 @@ export const DetailButton = ({ onClick, children = ">" }) => (
 //   data={users}
 //   columns={columns}
 //   enableRowSelection={true}
+//   selectionActions={[
+//     { value: "delete", label: "삭제", icon: "" },
+//     { value: "hide", label: "숨김", icon: "" },
+//   ]}
+//   onSelectionAction={(action) => console.log(action)}
 //   enableSorting={true}
 //   enableFiltering={true}
 //   enablePagination={true}
@@ -49,6 +56,8 @@ const BaseTable = ({
 	data = [],
 	columns = [],
 	enableRowSelection = false,
+	selectionActions,
+	onSelectionAction,
 	enableSorting = true,
 	enableFiltering = true,
 	enablePagination = true,
@@ -60,6 +69,24 @@ const BaseTable = ({
 	const [sorting, setSorting] = useState([]);
 	const [rowSelection, setRowSelection] = useState({});
 	const [internalGlobalFilter, setInternalGlobalFilter] = useState("");
+
+	// Runtime validation for enableRowSelection + selectionActions
+	useEffect(() => {
+		if (enableRowSelection) {
+			if (!selectionActions || selectionActions.length === 0) {
+				console.warn(
+					"[BaseTable] enableRowSelection is true but selectionActions is not provided. " +
+						"Please provide selectionActions array when enabling row selection.",
+				);
+			}
+			if (!onSelectionAction) {
+				console.warn(
+					"[BaseTable] enableRowSelection is true but onSelectionAction is not provided. " +
+						"Please provide onSelectionAction callback when enabling row selection.",
+				);
+			}
+		}
+	}, [enableRowSelection, selectionActions, onSelectionAction]);
 
 	const currentGlobalFilter = onGlobalFilterChange
 		? globalFilter
@@ -100,6 +127,8 @@ const BaseTable = ({
 			onRowSelectionChange(selectedRows);
 		}
 	}, [rowSelection, onRowSelectionChange, table]);
+
+	const selectedCount = table.getSelectedRowModel().rows.length;
 
 	return (
 		<S.TableContainer>
@@ -210,13 +239,40 @@ const BaseTable = ({
 				</S.Pagination>
 			)}
 
-			{enableRowSelection && (
-				<S.SelectionInfo>
-					{table.getSelectedRowModel().rows.length}개 선택됨
-				</S.SelectionInfo>
+			{enableRowSelection && selectionActions && onSelectionAction && (
+				<SelectionFAB
+					selectedCount={selectedCount}
+					actions={selectionActions}
+					onAction={onSelectionAction}
+				/>
 			)}
 		</S.TableContainer>
 	);
+};
+
+BaseTable.propTypes = {
+	data: PropTypes.array,
+	columns: PropTypes.array,
+	enableRowSelection: PropTypes.bool,
+	selectionActions: PropTypes.arrayOf(
+		PropTypes.shape({
+			value: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
+			icon: PropTypes.string,
+			variant: PropTypes.oneOf(["outline", "ghost", "solid"]),
+			border: PropTypes.string,
+			color: PropTypes.string,
+			backgroundColor: PropTypes.string,
+		}),
+	),
+	onSelectionAction: PropTypes.func,
+	enableSorting: PropTypes.bool,
+	enableFiltering: PropTypes.bool,
+	enablePagination: PropTypes.bool,
+	pageSize: PropTypes.number,
+	onRowSelectionChange: PropTypes.func,
+	globalFilter: PropTypes.string,
+	onGlobalFilterChange: PropTypes.func,
 };
 
 export default BaseTable;

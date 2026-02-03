@@ -183,18 +183,58 @@ S.PageInfo = styled.span`
 	color: ${({ theme }) => theme.PALLETE.gray.greyscale04};
 `;
 
-S.SelectionInfo = styled.div`
-	margin-top: 12px;
-	font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
-	color: ${({ theme }) => theme.PALLETE.gray.greyscale04};
-	text-align: right;
-`;
-
 S.Checkbox = styled.input`
 	width: 18px;
 	height: 18px;
 	cursor: pointer;
 	accent-color: ${({ theme }) => theme.PALLETE.primary};
+`;
+
+// SelectionBar styles (horizontal action bar)
+S.SelectionBar = styled.div`
+	position: fixed;
+	bottom: 32px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 12px 20px;
+	background: ${({ theme }) => theme.PALLETE.white};
+	border: 1px solid ${({ theme }) => theme.PALLETE.gray.greyscale02};
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+	z-index: 100;
+	animation: slideUp 0.2s ease-out;
+
+	@keyframes slideUp {
+		from {
+			opacity: 0;
+			transform: translateX(-50%) translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+`;
+
+S.SelectionBadge = styled.span`
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 12px;
+	background: ${({ theme }) => theme.PALLETE.primary}15;
+	color: ${({ theme }) => theme.PALLETE.primary};
+	font-size: ${({ theme }) => theme.FONT_SIZE.linktxt};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.semiBold};
+	border-radius: 6px;
+	white-space: nowrap;
+`;
+
+S.SelectionActions = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
 `;
 
 export default S;
