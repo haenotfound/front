@@ -38,6 +38,7 @@ import LikedPosts from "../pages/mypage/general/myactivity/LikedPosts";
 import AdminPost from "../pages/mypage/admin/post/AdminPost";
 import ProvideDetail from "../pages/provide/detail/ProvideDetail";
 import CommunityDetail from "../pages/community/detail/CommunityDetail";
+import CommunityWritePost from "../pages/community/write/CommunityWritePost";
 
 
 const router = createBrowserRouter([
@@ -64,9 +65,14 @@ const router = createBrowserRouter([
         path: "/community",
         element: <CommunityList />
       },
+      // 커뮤니티 글 작성
+      {
+        path: "/community/write",
+        element: <CommunityWritePost />
+      },
       // 커뮤니티 글 상세
       {
-        path: "/community/detail",
+        path: "/community/detail/:id",
         element: <CommunityDetail />
       },
       // 안전점수

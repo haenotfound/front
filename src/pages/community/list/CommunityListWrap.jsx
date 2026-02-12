@@ -1,11 +1,16 @@
-import React from 'react';
-import ListItem from './ListItem';
+import React from "react";
+import ListItem from "./ListItem";
 
-const CommunityListWrap = () => {
+const CommunityListWrap = ({ posts }) => {
+  if (!posts || posts.length === 0) {
+    return <div style={{ padding: "24px 0" }}>게시글이 없어요.</div>;
+  }
+
   return (
-    <div>
-      커뮤니티 리스트 모음
-      <ListItem />
+    <div style={{ padding: "24px 0"}}>
+      {posts.map((post) => (
+        <ListItem key={post.id} post={post} />
+      ))}
     </div>
   );
 };

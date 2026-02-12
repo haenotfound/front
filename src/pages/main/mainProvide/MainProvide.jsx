@@ -2,9 +2,9 @@ import React from "react";
 import S from "./style";
 import Title from "../../../components/title/Title";
 import IconButton from "../../../components/button/IconButton";
-import ProvideBox from "../../../components/provideBox/ProvideBox";
 import { Link } from "react-router-dom";
 import { mockPosts } from "../../../mock/mockPosts";
+import CardGrid from "../../../components/provideBox/CardGrid";
 
 const MainProvide = () => {
   return (
@@ -35,10 +35,15 @@ const MainProvide = () => {
             </IconButton>
           </Link>
         </S.TitleContainer>
+
         <S.ProvideGrid>
-          {mockPosts.slice(0, 4).map((post) => (
-            <ProvideBox key={post.id} post={post} />
-          ))}
+          <CardGrid
+            posts={mockPosts.slice(0, 4)}
+            columns={4}
+            gap={30}
+            marginTop={0}
+            paddingX={0}
+          />
         </S.ProvideGrid>
       </S.ProvideInner>
     </S.ProvideContainer>

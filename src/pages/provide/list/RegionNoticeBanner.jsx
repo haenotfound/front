@@ -1,24 +1,29 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import S from "./style";
 import Title from "../../../components/title/Title";
-import IconButton from "../../../components/button/IconButton";
-import ProvideBox from "../../../components/provideBox/ProvideBox";
 import Icon from "../../../components/icon/Icon";
 
 const RegionNoticeBanner = ({ region }) => {
-  const isRegionSet = Boolean(region);
+  const isRegionSet = Boolean(region)
+
+  const displayRegion = useMemo(() => {
+    if(!region) return ""
+    const parts = region.trim().split(/\s+/)
+    if(parts.length >= 3) return parts.slice(0, 3).join(" ")
+    return region
+  }, [region])
 
   return (
     <S.BannerContainer>
       <S.BannerTitle>
         <Title
-          highlightText={isRegionSet ? region : ""}
+          highlightText={isRegionSet ? displayRegion : ""}
           text="자취 정보"
           iconName="search"
           iconSize="xlarge"
           subtitle="내가 찾던 자취 정보가 한 곳에!"
-        ></Title>
+        />
       </S.BannerTitle>
 
       <S.RegionNoticeContainer>
@@ -39,12 +44,12 @@ const RegionNoticeBanner = ({ region }) => {
           </>
         ) : (
           <>
-            <S.RegionNoticeBox className="RegionNoticeBox">
-              <S.RegionNotice className="RegionNotice">
+            <S.RegionNoticeBox>
+              <S.RegionNotice>
                 <Icon name="pin" size="xsmall"></Icon>
-                <span>현재 지역: {region}</span>
+                <span>현재 지역: {displayRegion}</span>
               </S.RegionNotice>
-              <S.ChangeRegion to="/select-location" className="ChangeRegion">
+              <S.ChangeRegion to="/select-location">
                 지역 변경하기 →
               </S.ChangeRegion>
             </S.RegionNoticeBox>

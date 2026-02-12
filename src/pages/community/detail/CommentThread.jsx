@@ -1,12 +1,14 @@
-import React from 'react';
-import CommentItem from './CommentItem';
+import React from "react";
+import S from "./style";
+import CommentItem from "./CommentItem";
 
-const CommentThread = () => {
+const CommentThread = ({ comments = [] }) => {
   return (
-    <div>
-      댓글 스레드
-      <CommentItem />
-    </div>
+    <S.CommentThreadContainer>
+      {comments.map((comment) => (
+        <CommentItem key={comment.id} comment={comment} />
+      ))}
+    </S.CommentThreadContainer>
   );
 };
 

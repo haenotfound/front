@@ -23,9 +23,7 @@ S.TitleContainer = styled.div`
 `;
 
 S.ProvideGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  width: 100%
 `;
 
 S.ProvideWrap = styled.div`

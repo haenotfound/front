@@ -1,96 +1,99 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import BaseButton from "../button/BaseButton";
 
 const S = {};
 
-S.ProvideBox = styled.div`
-  max-width: 360px;
+S.CardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(${({ $columns }) => $columns}, minmax(0, 1fr));
+  gap: ${({ $gap }) => `${$gap}px`};
+  margin-top: ${({ $marginTop }) => `${$marginTop}px`};
   width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  min-height: 180px;
-
-`;
-S.ProvideBoxButtonWrapper = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  padding: 0 ${({ $paddingX }) => `${$paddingX}px`};
+  box-sizing: border-box;
 `;
 
-S.ProvideBoxLink = styled(Link)`
-  width: 100%;
-  height: 100%;
-  color: inherit;
+S.CardLink = styled(Link)`
+  display: block;
   text-decoration: none;
+  color: inherit;
+  min-width: 0;
 `;
 
-S.ProvideBoxImageWrapper = styled.div`
+S.CardWrap = styled.article`
   width: 100%;
-  aspect-ratio: 3/2;
+  min-width: 0;
+  background: #fff;
+  border-radius: 18px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  line-height: 0;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+  }
 `;
 
-S.ProvideBoxImage = styled.img`
+S.Thumbnail = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #fff;
+  overflow: hidden;
+`;
+
+S.ThumbnailImg = styled.img`
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
 `;
 
-S.ProvideBoxContent = styled.div`
-  padding: 30px 25px;
-  background: ${({ theme }) => theme.PALLETE.secondary};
+S.Category = styled(BaseButton)`
+  position: absolute;
+  top: 12px;
+  left: 12px;
 `;
 
-S.ProvideBoxTitle = styled.div`
+S.CardBody = styled.div`
+  padding: 14px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  margin-bottom: 30px;
+  flex: 1;
   min-width: 0;
 `;
 
-S.ProvideBoxTitleSubtext = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE["bttxt"]};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT["semiBold"]};
-  line-height: ${({ theme }) => theme.FONT_LINE["brtxt"]};
-  color: ${({ theme }) => theme.PALLETE.primary};
-  `;
-
-S.ProvideBoxTitleText = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE["h4"]};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT["semiBold"]};
-  line-height: ${({ theme }) => theme.FONT_LINE["brtxt"]};
+S.CardTitle = styled.h3`
+  margin: 8px 5px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.48;
+  color: #0B1215;
   white-space: nowrap;
   overflow: hidden;
-  height: 28px;
-  min-width: 0;
   text-overflow: ellipsis;
+  height: calc(16px * 1.48);
 `;
 
-S.ProvideBoxContentBottom = styled.div`
+S.CardFooter = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
+  margin-top: auto;
 `;
 
-S.ProvideBoxDate = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE["bttxt"]};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
-  line-height: ${({ theme }) => theme.FONT_LINE["brtxt"]};
-  color: ${({ theme }) => theme.PALLETE.gray["greyscale04"]};
-`;
-
-S.ProvideBoxMore = styled.div`
-  background-color: ${({ theme }) => theme.PALLETE.white};
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+S.DateText = styled.span`
+  font-size: ${({ theme }) => theme.FONT_SIZE.h7};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: #8d8d8d;
+  padding: 0 5px;
 `;
 
 export default S;

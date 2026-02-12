@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const S = {};
 
@@ -34,48 +34,74 @@ S.PostTitle = styled.div`
 `;
 
 S.Category = styled.div`
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: ${({ theme }) => theme.PALLETE.primary};
 `;
 
 S.Title = styled.h2`
   margin: 0;
-  font-size: ${({ theme }) => theme.FONT_SIZE.h4};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h3};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.extraBold};
   line-height: ${({ theme }) => theme.FONT_LINE.h4};
 `;
 
 S.Date = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE.h7};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
-  color: #8d8d8d;
+  font-size: 16px;
+  font-weight: 300;
+  color: #b5b5b5;
 `;
 
-S.LikeAndScrap = styled.div`
+S.CountItemWrap = styled.div`
   display: flex;
   gap: 14px;
   align-items: center;
   padding-top: 4px;
 `;
 
-S.CountItems = styled.div`
+S.CountItem = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+`;
+
+S.IconButton = styled.button`
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  transition: transform 120ms ease;
+
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const pop = keyframes`
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
 `;
 
 S.Icon = styled.img`
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   display: block;
+
+  &.pop {
+    animation: ${pop} 220ms ease;
+  }
 `;
 
 S.Count = styled.span`
-  font-size: 14px;
-  font-weight: 600;
-  color: #8d8d8d;
+  font-size: 16px;
+  font-weight: 300;
+  color: #b5b5b5;
 `;
 
 // PostContentCard

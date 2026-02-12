@@ -1,22 +1,14 @@
-import styled from "styled-components";
 import { Link } from "react-router-dom";
-import BaseButton from "../../../components/button/BaseButton";
+import styled from "styled-components";
 
 const S = {};
 
-// ProvideList
+// CommunityList
 
-S.ProvideListContainer = styled.div`
+S.CommunityListContainer = styled.div`
   max-width: 1520px;
   margin: 0 auto;
   padding: 0 30px 60px 30px;
-`;
-
-S.Button = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 40px 0;
 `;
 
 // RegionNoticeBanner
@@ -32,6 +24,13 @@ S.BannerTitle = styled.div`
   max-width: 1520px;
   margin: 0 auto;
   padding: 0 20px;
+`;
+
+S.TitleRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 `;
 
 S.RegionNoticeContainer = styled.div`
@@ -83,7 +82,6 @@ S.SubText = styled.p`
 `;
 
 // FilterPanel
-
 S.FilterPanelSection = styled.section`
   width: 100%;
   border: 1px solid #d9d9d9;
@@ -98,6 +96,7 @@ S.FilterRow = styled.div`
   gap: 18px;
   align-items: start;
   padding: 14px 0;
+
   & + & {
     border-top: 1px solid #f1f1f1;
   }
@@ -145,6 +144,99 @@ S.SearchActions = styled.div`
   display: flex;
   gap: 12px;
   justify-content: center;
+`;
+
+// ListItem
+S.ListItemWrap = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid #d9d9d9;
+  text-decoration: none;
+`;
+
+S.Left = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+S.ListTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 700;
+  color: #0b1215;
+  line-height: 1.3;
+  margin: 0 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+S.ListContent = styled.p`
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #0b1215;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+S.Meta = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+`;
+
+S.MetaText = styled.span`
+  font-size: 12px;
+  color: #8d8d8d;
+`;
+
+S.CountItemWrap = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
+S.CountItem = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+S.Icon = styled.img`
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
+`;
+
+S.Count = styled.span`
+  font-size: 12px;
+  font-weight: 300;
+  color: #b5b5b5;
+`;
+
+S.Right = styled.div`
+  flex: 0 0 auto;
+`;
+
+S.Thumb = styled.img`
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: none;
+`;
+
+// LoadMoreButton
+S.Button = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
 `;
 
 export default S;

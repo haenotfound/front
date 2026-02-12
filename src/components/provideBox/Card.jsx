@@ -1,17 +1,10 @@
 import React from "react";
 import S from "./style";
+import { formatDate } from "../../utils/formatDate";
 
 const Card = ({ post }) => {
   if (!post) return null;
-  const {
-    id,
-    category = "",
-    title = "",
-    createdAt = "",
-    likeCount = 0,
-    bookmarkCount = 0,
-    imageSrc = "",
-  } = post;
+  const { id, category = "", title = "", createdAt = "", imageSrc = "" } = post;
 
   return (
     <S.CardLink to={`/provide/detail/${id}`} aria-label={`${title} 상세 보기`}>
@@ -44,31 +37,11 @@ const Card = ({ post }) => {
           <S.CardTitle>{title}</S.CardTitle>
           <S.CardFooter>
             <S.DateText>{formatDate(createdAt)}</S.DateText>
-            <S.LikeAndScrap>
-              <S.CountItems>
-                <S.Icon src="/assets/images/icons/like.png" alt="좋아요" />
-                <S.Count>{likeCount}</S.Count>
-              </S.CountItems>
-              <S.CountItems>
-                <S.Icon src="/assets/images/icons/bookmark-view.png" alt="북마크" />
-                <S.Count>{bookmarkCount}</S.Count>
-              </S.CountItems>
-            </S.LikeAndScrap>
           </S.CardFooter>
         </S.CardBody>
       </S.CardWrap>
     </S.CardLink>
   );
 };
-
-function formatDate(value) {
-  const d = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(d.getTime())) return String(value);
-
-  const yy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yy}. ${mm}. ${dd}`;
-}
 
 export default Card;

@@ -129,8 +129,8 @@ const MainSelectLocation = () => {
                       <option key={option} value={option}>
                         {option}
                       </option>
-                    ))}
-                  </S.Select>
+                    ))} */}
+                  {/* </S.Select>
                 ))} */}
                 <S.Select value={selectedSido} onChange={handleSidoChange}>
                   <option value="">시/도 선택</option>
