@@ -1,11 +1,13 @@
-import React from 'react';
-import S from './style';
-import BaseButton from '../button/BaseButton.jsx';
-
+import React from "react";
+import S from "./style";
+import BaseButton from "../button/BaseButton.jsx";
+import { useAuth } from "../../context/AuthContext";
 const Header = () => {
+  const { isLogin, logout } = useAuth();
+
   return (
-    <S.HeaderContainer className='header'>
-      <S.HeaderInner className='header-inner'>
+    <S.HeaderContainer className="header">
+      <S.HeaderInner className="header-inner">
         <S.HeaderLeft>
           <S.Logo>
             <S.Link to="/">
@@ -26,7 +28,13 @@ const Header = () => {
 
         <S.HeaderMenus>
           <S.Link to="/select-location">지역선택</S.Link>
-          <S.Link to="/login">로그인</S.Link>
+          {isLogin ? (
+            <S.Link to="#" onClick={logout}>
+              로그아웃
+            </S.Link>
+          ) : (
+            <S.Link to="/login">로그인</S.Link>
+          )}
           <BaseButton
             padding="small"
             shape="pill"
