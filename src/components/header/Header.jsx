@@ -44,7 +44,11 @@ const Header = () => {
             fontWeight="extraBold"
             lineHeight="h1"
           >
-            <S.Link to="/join">회원가입</S.Link>
+            {isLogin ? (
+              <S.Link to="/mypage">마이페이지</S.Link>
+            ) : (
+              <S.Link to="/join">회원가입</S.Link>
+            )}
           </BaseButton>
         </S.HeaderMenus>
       </S.HeaderInner>
