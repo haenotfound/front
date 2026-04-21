@@ -39,6 +39,7 @@ import AdminPost from "../pages/mypage/admin/post/AdminPost";
 import ProvideDetail from "../pages/provide/detail/ProvideDetail";
 import CommunityDetail from "../pages/community/detail/CommunityDetail";
 import CommunityWritePost from "../pages/community/write/CommunityWritePost";
+import RequireAuth from "./RequireAuth";
 
 
 const router = createBrowserRouter([
@@ -63,17 +64,17 @@ const router = createBrowserRouter([
       // 커뮤니티
       {
         path: "/community",
-        element: <CommunityList />
+        element: <RequireAuth><CommunityList /></RequireAuth>
       },
       // 커뮤니티 글 작성
       {
         path: "/community/write",
-        element: <CommunityWritePost />
+        element: <RequireAuth><CommunityWritePost /></RequireAuth>
       },
       // 커뮤니티 글 상세
       {
         path: "/community/detail/:id",
-        element: <CommunityDetail />
+        element: <RequireAuth><CommunityDetail /></RequireAuth>
       },
       // 안전점수
       {
