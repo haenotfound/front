@@ -31,12 +31,33 @@ S.SafetyScoreMap = styled.div`
   border-radius: 20px;
   margin-top: 30px;
   position: relative;
+  overflow: hidden;
+`;
+
+S.MapCanvas = styled.div`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+`;
+
+S.MapEmpty = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.PALLETE.gray.greyscale05};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h4};
+  pointer-events: none;
 `;
 
 S.MapFilter = styled.div`
   position: absolute;
   top: 28px;
   left: 28px;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 24px;

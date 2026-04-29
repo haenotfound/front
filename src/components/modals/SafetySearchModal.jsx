@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import S from "./style";
+import { useLocationContext } from "../../context/LocationContext";
 
 const KAKAO_APP_KEY = process.env.REACT_APP_KAKAO_MAP_KEY;
 
@@ -76,6 +77,7 @@ const loadKakaoMaps = () => {
 
 const SafetySearchModal = ({ isOpen, onClose, onConfirm }) => {
   const navigate = useNavigate();
+  const { selectLocation } = useLocationContext();
   const [address, setAddress] = useState("");
   const [isSearched, setIsSearched] = useState(false);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
@@ -263,16 +265,25 @@ const SafetySearchModal = ({ isOpen, onClose, onConfirm }) => {
     );
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const center = mapRef.current?.getCenter();
-    onConfirm?.({
-      address,
-      isSaved,
-      lat: center?.getLat(),
-      lng: center?.getLng(),
-    });
-    onClose?.();
-    navigate("/");
+    const lat = center?.getLat();
+    const lng = center?.getLng();
+    if (!address || lat == null || lng == null) return;
+
+    try {
+      await selectLocation({
+        address,
+        latitude: lat,
+        longitude: lng,
+        saveAsFavorite: isSaved,
+      });
+      onConfirm?.({ address, isSaved, lat, lng });
+      onClose?.();
+      navigate("/safety-score");
+    } catch (err) {
+      setMapError(err?.message || "지역 저장에 실패했습니다.");
+    }
   };
 
   if (!isOpen) return null;

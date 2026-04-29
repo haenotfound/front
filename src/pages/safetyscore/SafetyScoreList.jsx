@@ -3,7 +3,17 @@ import S from "./style";
 import ScoreByCategory from "./ScoreByCategory";
 import Icon from "../../components/icon/Icon";
 
-const SafetyScoreList = () => {
+const SafetyScoreList = ({ scoreData }) => {
+  const cctvScore = scoreData?.cctvScore ?? 0;
+  const streetlightScore = scoreData?.streetlightScore ?? 0;
+  const policeScore = scoreData?.policeScore ?? 0;
+  const crimeProneScore = scoreData?.crimeProneScore ?? 0;
+
+  const cctvCount = scoreData?.cctvCount ?? 0;
+  const streetlightCount = scoreData?.streetlightCount ?? 0;
+  const policeCount = scoreData?.policeCount ?? 0;
+  const crimeProneCount = scoreData?.crimeProneCount ?? 0;
+
   return (
     <>
       <S.SafetyScoreTitleCenter>항목별 점수</S.SafetyScoreTitleCenter>
@@ -12,25 +22,25 @@ const SafetyScoreList = () => {
           image={`${process.env.PUBLIC_URL}/assets/images/safety-categoty-cctv.png`}
           alt="cctv"
           title="CCTV"
-          score={85}
+          score={cctvScore}
         />
         <ScoreByCategory
           image={`${process.env.PUBLIC_URL}/assets/images/safety-categoty-lamp.png`}
           alt="가로등"
           title="가로등"
-          score={30}
+          score={streetlightScore}
         />
         <ScoreByCategory
           image={`${process.env.PUBLIC_URL}/assets/images/safety-categoty-police.png`}
           alt="경찰시설"
           title="경찰시설"
-          score={45}
+          score={policeScore}
         />
         <ScoreByCategory
           image={`${process.env.PUBLIC_URL}/assets/images/safety-categoty-crime.png`}
           alt="범죄주의구간"
           title="범죄주의구간"
-          score={85}
+          score={crimeProneScore}
         />
       </S.ScoreByCategoryContainer>
       <S.SafetyScoreListContent>
@@ -39,16 +49,16 @@ const SafetyScoreList = () => {
         </S.SafetyScoreListContentTitle>
         <S.SafetyScoreListContentList>
           <li>
-            <Icon name="pin" /> CCTV 12개
+            <Icon name="pin" /> CCTV {cctvCount}개
           </li>
           <li>
-            <Icon name="pin" /> 가로등 30개
+            <Icon name="pin" /> 가로등 {streetlightCount}개
           </li>
           <li>
-            <Icon name="pin" /> 경찰시설 45개
+            <Icon name="pin" /> 경찰시설 {policeCount}개
           </li>
           <li>
-            <Icon name="pin" /> 범죄주의구간 1곳
+            <Icon name="pin" /> 범죄주의구간 {crimeProneCount}곳
           </li>
         </S.SafetyScoreListContentList>
       </S.SafetyScoreListContent>
