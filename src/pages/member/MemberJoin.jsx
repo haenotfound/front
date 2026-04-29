@@ -6,15 +6,23 @@ import Icon from "../../components/icon/Icon";
 import { Link, useNavigate } from "react-router-dom";
 
 const MemberJoin = () => {
+  const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRule =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,20}$/;
   const navigate = useNavigate();
   const [memberEmail, setMemberEmail] = useState("");
   const [memberName, setMemberName] = useState("");
   const [memberPassword, setMemberPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [memberProfile, setMemberProfile] = useState("");
   const [isPolicyChecked, setIsPolicyChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEmailInvalid =
+    memberEmail.length > 0 && !emailRule.test(memberEmail);
+  const isPasswordInvalid =
+    memberPassword.length > 0 && !passwordRule.test(memberPassword);
+  const isPasswordConfirmInvalid =
+    passwordConfirm.length > 0 && memberPassword !== passwordConfirm;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +31,14 @@ const MemberJoin = () => {
 
     if (!memberEmail.trim() || !memberName.trim() || !memberPassword) {
       setErrorMessage("이메일, 닉네임, 비밀번호를 입력해 주세요.");
+      return;
+    }
+    if (!emailRule.test(memberEmail)) {
+      setErrorMessage("이메일 형식을 확인해 주세요.");
+      return;
+    }
+    if (!passwordRule.test(memberPassword)) {
+      setErrorMessage("비밀번호 규칙을 확인해 주세요.");
       return;
     }
     if (memberPassword !== passwordConfirm) {
@@ -44,7 +60,6 @@ const MemberJoin = () => {
           memberEmail,
           memberName,
           memberPassword,
-          memberProfile: memberProfile.trim() || undefined,
         }),
       });
 
@@ -77,6 +92,11 @@ const MemberJoin = () => {
               value={memberEmail}
               onChange={(e) => setMemberEmail(e.target.value)}
             />
+            {isEmailInvalid && (
+              <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#e11d48" }}>
+                올바른 이메일 형식이 아닙니다.
+              </p>
+            )}
           </S.MemberInputBox>
           <S.MemberInputBox>
             <S.MemberInputLabel>닉네임</S.MemberInputLabel>
@@ -95,6 +115,14 @@ const MemberJoin = () => {
               value={memberPassword}
               onChange={(e) => setMemberPassword(e.target.value)}
             />
+            <p style={{ margin: "6px 0 0", fontSize: "12px", color: "#667085" }}>
+              8~20자, 영문/숫자/특수문자를 모두 포함해야 합니다.
+            </p>
+            {isPasswordInvalid && (
+              <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#e11d48" }}>
+                비밀번호 규칙에 맞지 않습니다.
+              </p>
+            )}
           </S.MemberInputBox>
           <S.MemberInputBox>
             <S.MemberInputLabel>비밀번호 확인</S.MemberInputLabel>
@@ -104,15 +132,11 @@ const MemberJoin = () => {
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
-          </S.MemberInputBox>
-          <S.MemberInputBox>
-            <S.MemberInputLabel>프로필 이미지 URL (선택)</S.MemberInputLabel>
-            <MemberInput
-              placeholderText="https://example.com/profile.jpg"
-              type="url"
-              value={memberProfile}
-              onChange={(e) => setMemberProfile(e.target.value)}
-            />
+            {isPasswordConfirmInvalid && (
+              <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#e11d48" }}>
+                비밀번호가 일치하지 않습니다.
+              </p>
+            )}
           </S.MemberInputBox>
           <S.MemberCheckbox>
             <S.MemberInputCheckbox
@@ -125,7 +149,18 @@ const MemberJoin = () => {
               개인정보 처리방침에 동의합니다
             </S.MemberInputLabel>
           </S.MemberCheckbox>
-          {errorMessage && <p style={{ color: "red", margin: 0 }}>{errorMessage}</p>}
+          {errorMessage && (
+            <p
+              style={{
+                margin: "4px 0 0",
+                fontSize: "12px",
+                lineHeight: 1.4,
+                color: "#e11d48",
+              }}
+            >
+              {errorMessage}
+            </p>
+          )}
           <BaseButton
             type="submit"
             size="bttxt"
