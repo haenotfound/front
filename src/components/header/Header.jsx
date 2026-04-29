@@ -2,8 +2,10 @@ import React from "react";
 import S from "./style";
 import BaseButton from "../button/BaseButton.jsx";
 import { useAuth } from "../../context/AuthContext";
+import { useLocationContext } from "../../context/LocationContext";
 const Header = () => {
   const { isLogin, logout } = useAuth();
+  const { openLocationModal } = useLocationContext();
 
   return (
     <S.HeaderContainer className="header">
@@ -27,7 +29,15 @@ const Header = () => {
         </S.HeaderLeft>
 
         <S.HeaderMenus>
-          <S.Link to="/select-location">지역선택</S.Link>
+          <S.Link
+            to="#"
+            onClick={(e) => {
+              e.preventDefault();
+              openLocationModal();
+            }}
+          >
+            지역선택
+          </S.Link>
           {isLogin ? (
             <S.Link to="#" onClick={logout}>
               로그아웃
