@@ -25,7 +25,6 @@ import WritePost from "../pages/mypage/admin/post/WritePost";
 import UserList from "../pages/mypage/admin/users/UserList";
 import ReportList from "../pages/mypage/admin/report/ReportList";
 import ProvideList from "../pages/provide/list/ProvideList";
-import SelectLocation from "../pages/selectlocation/SelectLocation";
 import SafetyScore from "../pages/safetyscore/SafetyScore";
 import AdminCommunityList from "../pages/mypage/admin/community/AdminCommunityList";
 import CommunityList from "../pages/community/list/CommunityList";
@@ -80,11 +79,6 @@ const router = createBrowserRouter([
       {
         path: "/safety-score",
         element: <SafetyScore />
-      },
-      // 지역선택
-      {
-        path: "/select-location",
-        element: <SelectLocation />
       },
       // 로그인
       {

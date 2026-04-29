@@ -1,7 +1,6 @@
 import React from "react";
 import S from "./style";
 import IconButton from "../../components/button/IconButton";
-import { Link } from "react-router-dom";
 import { useLocationContext } from "../../context/LocationContext";
 
 // 점수에 따라 표정 이미지 선택 (face1: 매우 좋음 ~ face4: 좋지 않음)
@@ -14,7 +13,8 @@ const pickFaceImage = (score) => {
 };
 
 const SafetyScoreInfo = ({ scoreData, loading }) => {
-  const { selectedLocation, selectLocation } = useLocationContext();
+  const { selectedLocation, selectLocation, openLocationModal } =
+    useLocationContext();
   const displayAddress =
     selectedLocation?.address || "지역을 선택해 주세요";
 
@@ -57,8 +57,9 @@ const SafetyScoreInfo = ({ scoreData, loading }) => {
             backgroundColor="white"
             border="white"
             borderWidth="medium"
+            onClick={openLocationModal}
           >
-            <Link to={"/select-location"}>지역 변경하기</Link>
+            지역 변경하기
           </IconButton>
           <IconButton
             iconName="bookmarks"

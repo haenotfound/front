@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import S from "./style";
 import { useLocationContext } from "../../context/LocationContext";
 
@@ -76,7 +75,6 @@ const loadKakaoMaps = () => {
 };
 
 const SafetySearchModal = ({ isOpen, onClose, onConfirm }) => {
-  const navigate = useNavigate();
   const { selectLocation } = useLocationContext();
   const [address, setAddress] = useState("");
   const [isSearched, setIsSearched] = useState(false);
@@ -269,7 +267,11 @@ const SafetySearchModal = ({ isOpen, onClose, onConfirm }) => {
     const center = mapRef.current?.getCenter();
     const lat = center?.getLat();
     const lng = center?.getLng();
-    if (!address || lat == null || lng == null) return;
+    console.log("[handleConfirm] address=", address, "lat=", lat, "lng=", lng);
+    if (!address || lat == null || lng == null) {
+      console.warn("[handleConfirm] 주소 또는 좌표가 없어서 중단");
+      return;
+    }
 
     try {
       await selectLocation({
@@ -278,9 +280,9 @@ const SafetySearchModal = ({ isOpen, onClose, onConfirm }) => {
         longitude: lng,
         saveAsFavorite: isSaved,
       });
+      console.log("[handleConfirm] selectLocation 호출 완료");
       onConfirm?.({ address, isSaved, lat, lng });
       onClose?.();
-      navigate("/safety-score");
     } catch (err) {
       setMapError(err?.message || "지역 저장에 실패했습니다.");
     }

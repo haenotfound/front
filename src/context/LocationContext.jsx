@@ -47,6 +47,11 @@ export const LocationProvider = ({ children }) => {
   const [selectedLocation, setSelectedLocationState] = useState(loadFromStorage);
   const [recentList, setRecentList] = useState([]);
   const [favoriteList, setFavoriteList] = useState([]);
+  // 지역 선택 모달 (전역) - 어떤 페이지/컴포넌트에서든 open/close 가능
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+
+  const openLocationModal = useCallback(() => setIsLocationModalOpen(true), []);
+  const closeLocationModal = useCallback(() => setIsLocationModalOpen(false), []);
 
   const setSelectedLocation = useCallback((location) => {
     setSelectedLocationState(location);
@@ -88,6 +93,7 @@ export const LocationProvider = ({ children }) => {
   const selectLocation = useCallback(
     async ({ address, latitude, longitude, saveAsFavorite = false }) => {
       const next = { address, latitude, longitude };
+      console.log("[selectLocation] 새 지역 set:", next);
       setSelectedLocation(next);
 
       if (!isLogin) return next;
@@ -129,6 +135,9 @@ export const LocationProvider = ({ children }) => {
         favoriteList,
         refreshRecent,
         refreshFavorites,
+        isLocationModalOpen,
+        openLocationModal,
+        closeLocationModal,
       }}
     >
       {children}

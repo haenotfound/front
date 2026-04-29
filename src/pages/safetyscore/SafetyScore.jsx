@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import S from "./style";
 import IconButton from "../../components/button/IconButton";
 import SafetyScoreMap from "./SafetyScoreMap";
@@ -9,9 +8,11 @@ import { useLocationContext } from "../../context/LocationContext";
 import { calculateSafeScore } from "../../api/safetyScoreApi";
 
 const SafetyScore = () => {
-  const { selectedLocation } = useLocationContext();
+  const { selectedLocation, openLocationModal } = useLocationContext();
   const displayAddress =
     selectedLocation?.address || "지역을 선택해 주세요";
+
+  console.log("[SafetyScore render] selectedLocation=", selectedLocation);
 
   const [scoreData, setScoreData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -49,22 +50,21 @@ const SafetyScore = () => {
     <S.SafetyScoreContainer>
       <S.SafetyScoreInner>
         <S.SafetyScoreTitle>
-          {displayAddress}
-          <Link to="/select-location">
-            <IconButton
-              iconName="location-white"
-              iconSize="xsmall"
-              color="white"
-              size="medium"
-              shape="rounded"
-              padding="smallMedium"
-              backgroundColor="primary"
-              border="primary"
-              borderWidth="medium"
-            >
-              지역 선택하기
-            </IconButton>
-          </Link>
+          <span>{displayAddress}</span>
+          <IconButton
+            iconName="location-white"
+            iconSize="xsmall"
+            color="white"
+            size="medium"
+            shape="rounded"
+            padding="smallMedium"
+            backgroundColor="primary"
+            border="primary"
+            borderWidth="medium"
+            onClick={openLocationModal}
+          >
+            지역 선택하기
+          </IconButton>
         </S.SafetyScoreTitle>
         <SafetyScoreMap />
         {error && (
