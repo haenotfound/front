@@ -29,6 +29,8 @@ export const iconMap = {
   "camera-black": "camera-black.png",
   "lamp-white": "lamp-white.png",
   "lamp-black": "lamp-black.png",
+  "police-black": "police-black.svg",
+  "crime-black": "crime-black.svg",
 };
 
 const sizeMap = {

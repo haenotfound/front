@@ -13,31 +13,53 @@ const activeStyle = (active) => ({
   backgroundColor: active ? ACTIVE_BG : "transparent",
   color: active ? "#fff" : "inherit",
 });
-// 검정 PNG 아이콘을 흰색으로 만들어주는 CSS filter
+// 검정 PNG/SVG 아이콘을 흰색으로 만들어주는 CSS filter
 const iconWhiteFilter = (active) => ({
   filter: active ? "brightness(0) invert(1)" : "none",
 });
 
-// CCTV 마커용 SVG (빨간 원 배경 + 흰 카메라)
-const CCTV_MARKER_SVG = `
+// 인라인 SVG → data URL 헬퍼
+const toSvgSrc = (svg) =>
+  `data:image/svg+xml;utf8,${encodeURIComponent(svg.trim())}`;
+
+// ===== 지도 마커용 SVG (컬러) =====
+
+// CCTV (빨간 원 + 흰 카메라)
+const CCTV_MARKER_SRC = toSvgSrc(`
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
   <circle cx="14" cy="14" r="12.5" fill="#FF3B30" stroke="white" stroke-width="2"/>
   <rect x="7.5" y="11" width="13" height="8" rx="1.2" fill="white"/>
   <circle cx="14" cy="15" r="2.6" fill="#FF3B30"/>
   <rect x="10.5" y="9" width="4" height="2" fill="white"/>
-</svg>
-`.trim();
-const CCTV_MARKER_SRC = `data:image/svg+xml;utf8,${encodeURIComponent(CCTV_MARKER_SVG)}`;
+</svg>`);
 
-// 가로등 마커용 SVG (노란 원 배경 + 가로등 모양)
-const LAMP_MARKER_SVG = `
+// 가로등 (노란 원 + 가로등 모양)
+const LAMP_MARKER_SRC = toSvgSrc(`
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
   <circle cx="12" cy="12" r="10.5" fill="#FFB300" stroke="white" stroke-width="2"/>
   <rect x="10.5" y="10" width="3" height="9" rx="0.5" fill="white"/>
   <path d="M7 6 L17 6 L15.5 9 L8.5 9 Z" fill="white"/>
-</svg>
-`.trim();
-const LAMP_MARKER_SRC = `data:image/svg+xml;utf8,${encodeURIComponent(LAMP_MARKER_SVG)}`;
+</svg>`);
+
+// 경찰서 (파란 원 + 흰 방패)
+const POLICE_MARKER_SRC = toSvgSrc(`
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <circle cx="14" cy="14" r="12.5" fill="#1E63E0" stroke="white" stroke-width="2"/>
+  <path d="M14 6 L20 9 V15 C20 19 17 21.5 14 22.5 C11 21.5 8 19 8 15 V9 Z"
+        fill="white"/>
+  <text x="14" y="17" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="8" font-weight="bold"
+        fill="#1E63E0">P</text>
+</svg>`);
+
+// 범죄주의구간 (주황/노랑 삼각 + 느낌표)
+const CRIME_MARKER_SRC = toSvgSrc(`
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <path d="M14 3 L26 24 H2 Z"
+        fill="#FFA000" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="13" y="11" width="2" height="7" fill="white"/>
+  <circle cx="14" cy="20.5" r="1.2" fill="white"/>
+</svg>`);
 
 const SafetyScoreMap = () => {
   const { selectedLocation } = useLocationContext();
@@ -46,9 +68,13 @@ const SafetyScoreMap = () => {
   const markerRef = useRef(null);
   const cctvMarkersRef = useRef([]);
   const lampMarkersRef = useRef([]);
+  const policeMarkersRef = useRef([]);
+  const crimeMarkersRef = useRef([]);
   const [error, setError] = useState("");
   const [showCctv, setShowCctv] = useState(false);
   const [showLamp, setShowLamp] = useState(false);
+  const [showPolice, setShowPolice] = useState(false);
+  const [showCrime, setShowCrime] = useState(false);
   // 원위치 버튼: 클릭하면 잠깐 active 효과
   const [recenterFlash, setRecenterFlash] = useState(false);
 
@@ -180,6 +206,30 @@ const SafetyScoreMap = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showLamp, selectedLocation]);
 
+  // 4) 경찰서 마커
+  useEffect(() => {
+    drawFacilityMarkers({
+      type: "police",
+      show: showPolice,
+      markersRef: policeMarkersRef,
+      markerSrc: POLICE_MARKER_SRC,
+      size: 28,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showPolice, selectedLocation]);
+
+  // 5) 범죄주의구간 마커
+  useEffect(() => {
+    drawFacilityMarkers({
+      type: "crime",
+      show: showCrime,
+      markersRef: crimeMarkersRef,
+      markerSrc: CRIME_MARKER_SRC,
+      size: 28,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showCrime, selectedLocation]);
+
   // "원위치" 버튼: 잠깐 active 효과 + 중심 이동
   const handleRecenter = () => {
     if (!mapRef.current || !selectedLocation || !window.kakao?.maps) return;
@@ -196,6 +246,8 @@ const SafetyScoreMap = () => {
 
   const toggleCctv = () => setShowCctv((prev) => !prev);
   const toggleLamp = () => setShowLamp((prev) => !prev);
+  const togglePolice = () => setShowPolice((prev) => !prev);
+  const toggleCrime = () => setShowCrime((prev) => !prev);
 
   return (
     <S.SafetyScoreMap>
@@ -226,7 +278,7 @@ const SafetyScoreMap = () => {
               size="small"
               style={iconWhiteFilter(showCctv)}
             />
-            CCTV 표시
+            CCTV
           </S.MapFilterItemIcon>
           <S.MapFilterItemIcon
             onClick={toggleLamp}
@@ -237,7 +289,29 @@ const SafetyScoreMap = () => {
               size="small"
               style={iconWhiteFilter(showLamp)}
             />
-            가로등 표시
+            가로등
+          </S.MapFilterItemIcon>
+          <S.MapFilterItemIcon
+            onClick={togglePolice}
+            style={activeStyle(showPolice)}
+          >
+            <Icon
+              name="police-black"
+              size="small"
+              style={iconWhiteFilter(showPolice)}
+            />
+            경찰시설
+          </S.MapFilterItemIcon>
+          <S.MapFilterItemIcon
+            onClick={toggleCrime}
+            style={activeStyle(showCrime)}
+          >
+            <Icon
+              name="crime-black"
+              size="small"
+              style={iconWhiteFilter(showCrime)}
+            />
+            범죄주의구간
           </S.MapFilterItemIcon>
         </S.MapFilterItem>
       </S.MapFilter>
