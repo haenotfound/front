@@ -10,42 +10,66 @@ const PostDetailHeader = ({
   likeCount = 0,
   bookmarkCount = 0,
 }) => {
-
   // 좋아요, 북마크 기능 - 버튼: 아이콘
-  const [isLiked, setIsLiked] = useState(false)
-  const [isBookmarked, setIsBookmarked] = useState(false)
-  const [localLikeCount, setLocalLikeCount] = useState(likeCount)
-  const [localBookmarkCount, setLocalBookmarkCount] = useState(bookmarkCount)
+  const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const [localBookmarkCount, setLocalBookmarkCount] = useState(bookmarkCount);
 
   useEffect(() => {
-    setIsLiked(false)
-    setIsBookmarked(false)
-    setLocalLikeCount(likeCount)
-    setLocalBookmarkCount(bookmarkCount)
-  }, [postId])
+    setLocalLikeCount(likeCount);
+    setLocalBookmarkCount(bookmarkCount);
+  }, [postId, likeCount, bookmarkCount]);
 
-  const handleToggleLike = () => {
-    if(isLiked){
-      setIsLiked(false)
-      setLocalLikeCount((c) => Math.max(0, c-1))
-    } else{
-      setIsLiked(true)
-      setLocalLikeCount((c) => c+1)
+  const handleToggleLike = async () => {
+    try {
+      const res = await fetch(`http://localhost:10000/provide/${postId}/like`, {
+        method: "POST",
+      });
+
+      if (!res.ok) throw new Error("좋아요 실패");
+
+      const data = await res.json();
+
+      setIsLiked(data.isLiked);
+
+      setLocalLikeCount((prev) =>
+        data.isLiked ? prev + 1 : Math.max(0, prev - 1),
+      );
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
 
-  const handleToggleBookmark = () => {
-    if(isBookmarked){
-      setIsBookmarked(false)
-      setLocalBookmarkCount((c) => Math.max(0, c-1))
-    } else{
-      setIsBookmarked(true)
-      setLocalBookmarkCount((c) => c+1)
+  const handleToggleBookmark = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:10000/provide/${postId}/bookmark`,
+        {
+          method: "POST",
+        },
+      );
+
+      if (!res.ok) throw new Error("북마크 실패");
+
+      const data = await res.json();
+
+      setIsBookmarked(data.isBookmarked);
+
+      setLocalBookmarkCount((prev) =>
+        data.isBookmarked ? prev + 1 : Math.max(0, prev - 1),
+      );
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
 
-  const likeIcon = isLiked ? "/assets/images/icons/like-active.png" : "/assets/images/icons/like.png"
-  const bookmarkIcon = isBookmarked ? "/assets/images/icons/bookmark-active.png" : "/assets/images/icons/bookmark.png"
+  const likeIcon = isLiked
+    ? "/assets/images/icons/like-active.png"
+    : "/assets/images/icons/like.png";
+  const bookmarkIcon = isBookmarked
+    ? "/assets/images/icons/bookmark-active.png"
+    : "/assets/images/icons/bookmark.png";
 
   return (
     <S.PostHeader>
@@ -62,12 +86,20 @@ const PostDetailHeader = ({
         </S.CountItem>
 
         <S.IconButton $active={isLiked} onClick={handleToggleLike}>
-          <S.Icon className={isLiked ? "pop" : ""} src={likeIcon} alt="좋아요" />
+          <S.Icon
+            className={isLiked ? "pop" : ""}
+            src={likeIcon}
+            alt="좋아요"
+          />
           <S.Count>{localLikeCount}</S.Count>
         </S.IconButton>
 
         <S.IconButton $active={isBookmarked} onClick={handleToggleBookmark}>
-          <S.Icon className={isBookmarked ? "pop" : ""} src={bookmarkIcon} alt="북마크" />
+          <S.Icon
+            className={isBookmarked ? "pop" : ""}
+            src={bookmarkIcon}
+            alt="북마크"
+          />
           <S.Count>{localBookmarkCount}</S.Count>
         </S.IconButton>
       </S.CountItemWrap>

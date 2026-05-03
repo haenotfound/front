@@ -26,20 +26,22 @@ const RegionNoticeBanner = ({ region }) => {
             iconSize="xlarge"
             subtitle="우리 동네 사람들과 정보 공유"
           />
-          <Link to="/community/write">
-            <BaseButton
-              type="submit"
-              size="h6"
-              shape="pill"
-              variant="solid"
-              backgroundColor="primary"
-              color="white"
-              padding="medium"
-              style={{ width: "86px", height: "40px" }}
-            >
-              글 작성
-            </BaseButton>
-          </Link>
+          {isRegionSet && (
+            <Link to="/community/write">
+              <BaseButton
+                type="submit"
+                size="h6"
+                shape="pill"
+                variant="solid"
+                backgroundColor="primary"
+                color="white"
+                padding="medium"
+                style={{ width: "86px", height: "40px" }}
+              >
+                글 작성
+              </BaseButton>
+            </Link>
+          )}
         </S.TitleRow>
       </S.BannerTitle>
 

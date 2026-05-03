@@ -1,19 +1,24 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import RegionNoticeBanner from "./RegionNoticeBanner";
 import FilterPanel from "./FilterPanel";
 import CommunityListWrap from "./CommunityListWrap";
 import LoadMoreButton from "./LoadMoreButton";
 import S from "./style";
-import { mockCommunity } from "../../../mock/mockCommunity";
-
-const pageSize = 6
-const defaultFilters = { sort: "최신순", keyword: "" }
+import { getPosts } from "../../../api/community";
+const pageSize = 6;
+const defaultFilters = { sort: "최신순", keyword: "" };
 
 const CommunityList = () => {
-  const [posts] = useState(mockCommunity);
+  const [posts, setPosts] = useState([]);
   const [region, setRegion] = useState(null);
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(defaultFilters);
+  const [hasMore, setHasMore] = useState(true);
+  const [isAutoScroll, setIsAutoScroll] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const observerRef = useRef(null);
+  const bottomRef = useRef(null);
 
   // localStorage에 저장된 region 불러옴
   useEffect(() => {
@@ -22,6 +27,59 @@ const CommunityList = () => {
       setRegion(savedRegion);
     }
   }, []);
+
+  // 커뮤니티 post 불러옴
+  useEffect(() => {
+    const fetchPosts = async () => {
+      if (!region) return;
+      if (loading) return;
+      setLoading(true);
+
+      try {
+        const res = await getPosts({
+          page,
+          pageSize,
+          sort: filters.sort,
+          keyword: filters.keyword,
+        });
+
+        if (page === 1) {
+          setPosts(res.data);
+        } else {
+          setPosts((prev) => [...prev, ...res.data]);
+        }
+        if (res.data.length < pageSize) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [page, filters, region]);
+
+  useEffect(() => {
+    if (!isAutoScroll) return;
+    if (!hasMore) return;
+    if (loading) return;
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    });
+
+    if (bottomRef.current) {
+      observerRef.current.observe(bottomRef.current);
+    }
+
+    return () => observerRef.current?.disconnect();
+  }, [isAutoScroll, hasMore, loading]);
 
   // 로컬 필터링/정렬
   const filteredPosts = useMemo(() => {
@@ -65,30 +123,37 @@ const CommunityList = () => {
   }, [posts, filters]);
 
   // 필터링 적용 + 현재 페이지 기준 화면에 보이는 게시글 목록
-  const visiblePosts = useMemo(() => {
-    return filteredPosts.slice(0, page * pageSize)
-  }, [filteredPosts, page])
+  const visiblePosts = filteredPosts;
 
   // 필터/검색 적용, 페이지 리셋
   const handleApplyFilters = (nextFilters) => {
-    setFilters(nextFilters)
-    setPage(1)
-  }
+    setFilters(nextFilters);
+    setPage(1);
+    setPosts([]);
+    setHasMore(true);
+  };
 
   // 더보기
-  const hasMore = visiblePosts.length < filteredPosts.length
   const handleLoadMore = () => {
-    if(!hasMore) return
-    setPage((prev) => prev + 1)
-  }
+    if (!hasMore) return;
+    setPage((prev) => prev + 1);
+    setIsAutoScroll(true);
+  };
 
   return (
     <S.CommunityListContainer>
       커뮤니티 리스트 페이지
       <RegionNoticeBanner region={region} />
-      <FilterPanel onApply={handleApplyFilters} />
-      <CommunityListWrap posts={visiblePosts} />
-      {hasMore && <LoadMoreButton onClick={handleLoadMore} />}
+      <S.BlockWrapper isBlocked={!region}>
+        <FilterPanel onApply={handleApplyFilters} />
+        <CommunityListWrap posts={visiblePosts} />
+        {!isAutoScroll && hasMore && (
+          <LoadMoreButton onClick={handleLoadMore} disabled={loading} />
+        )}
+        {isAutoScroll && hasMore && (
+          <div ref={bottomRef} style={{ height: "1px" }} />
+        )}
+      </S.BlockWrapper>
     </S.CommunityListContainer>
   );
 };

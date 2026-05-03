@@ -208,17 +208,19 @@ S.CommentThreadContainer = styled.div`
 
 // CommentItem
 S.CommentWrap = styled.div`
-  width: 100%;
   display: flex;
   gap: 12px;
   align-items: flex-start;
 `;
 
 S.CommentBubble = styled.div`
-  flex: 1;
+  width: fit-content;
+  max-width: calc(100% - 52px - 12px);
   background: #f6f7f9;
   border-radius: 14px;
   padding: 16px 24px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 `;
 
 S.CommentTop = styled.div`
@@ -226,6 +228,7 @@ S.CommentTop = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
+  margin-bottom: 6px;
 `;
 
 S.WritedCommentAuthor = styled.div`
@@ -239,12 +242,22 @@ S.CommentRight = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
+  margin-left: 36px;
 `;
 
 S.CommentTime = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 12px;
   color: #b5b5b5;
+  gap: 6px;
 `;
+
+S.CommentSirenIcon = styled.img`
+  width: 18px;
+  height: 18px;
+  display: block;
+`
 
 S.CommentIconGroup = styled.div`
   display: flex;
@@ -312,12 +325,149 @@ S.ReplySection = styled.div`
   gap: 10px;
 `;
 
+// ReplyComposer
+S.ReplyComposerContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+
+S.ReplyInput = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0 16px;
+`;
+
+S.ReplyText = styled.textarea`
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  resize: none;
+  background: transparent;
+`;
+
+// ReplyThread
+S.ReplyThreadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+// ReplyItem
+S.ReplyItem = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 // BackToListButton
 S.GoToList = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 32px;
   padding-bottom: 100px;
+`;
+
+// ReportModal
+S.ReportOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+S.ReportModal = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 360px;
+`;
+
+S.ReportTitle = styled.h3`
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+`;
+
+S.ReportTarget = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+`;
+
+S.ReportSubTitle = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+`;
+
+S.ReportOptionList = styled.div`
+  margin-bottom: 16px;
+`;
+
+S.HiddenRadio = styled.input`
+  display: none;
+`;
+
+S.CustomCheckbox = styled.div`
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background: ${({ $checked }) => ($checked ? "#5b6cff" : "#d9d9d9")};
+  flex-shrink: 0;
+`;
+
+S.ReportOption = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 14px;
+`;
+
+S.ReportNotice = styled.div`
+  font-size: 12px;
+  color: #b5b5b5;
+  line-height: 1.5;
+  margin-top: 12px;
+`;
+
+S.ReportFooter = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+`;
+
+S.ReportCancelButton = styled.button`
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #e5e5e5;
+  color: #666;
+  cursor: pointer;
+`;
+
+S.ReportSubmitButton = styled.button`
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #5b6cff;
+  color: white;
+  cursor: pointer;
+`;
+
+S.ReportSuccessText = styled.div`
+  font-size: 15px;
+  text-align: center;
+  margin: 40px 0;
 `;
 
 export default S;

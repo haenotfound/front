@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 import S from "./style";
 import BaseButton from "../../../components/button/BaseButton";
+import { createComment } from "../../../api/community";
 
-const CommentComposer = ({ postId }) => {
+const CommentComposer = ({ postId, onCreate }) => {
   const [value, setValue] = useState("");
 
-  const handleSubmit = () => {
-    if (!value.trim()) return;
+  const handleSubmit = async () => {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      alert("내용을 입력하세요.");
+      return;
+    }
 
-    console.log("댓글 등록", {
-      postId,
-      content: value,
-    });
+    try {
+      const newComment = await createComment(postId, trimmed);
 
-    setValue("");
+      onCreate?.(newComment);
+
+      setValue("");
+    } catch (e) {
+      console.error(e);
+      alert("댓글 작성 실패");
+    }
   };
 
   return (
@@ -27,6 +36,7 @@ const CommentComposer = ({ postId }) => {
         </S.ProfileBox>
         <S.CommentAuthorName>내 닉네임</S.CommentAuthorName>
       </S.CommentAuthor>
+
       <S.CommentInput>
         <S.CommentText
           placeholder="댓글을 작성해 주세요"
@@ -34,6 +44,7 @@ const CommentComposer = ({ postId }) => {
           onChange={(e) => setValue(e.target.value)}
           rows={1}
         />
+
         <BaseButton
           type="button"
           size="bttxt"

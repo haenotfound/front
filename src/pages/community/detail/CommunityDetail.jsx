@@ -1,29 +1,46 @@
-import React from 'react';
-import PostDetailHeader from './PostDetailHeader';
-import PostContentCard from './PostContentCard';
-import CommentComposer from './CommentComposer';
-import CommentThread from './CommentThread';
-import BackToListButton from './BackToListButton';
-import S from './style';
-import { mockCommunity } from '../../../mock/mockCommunity';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import PostDetailHeader from "./PostDetailHeader";
+import PostContentCard from "./PostContentCard";
+import CommentComposer from "./CommentComposer";
+import CommentThread from "./CommentThread";
+import BackToListButton from "./BackToListButton";
+import S from "./style";
+import { useParams } from "react-router-dom";
+import { getPostDetail } from "../../../api/community";
 
 const CommunityDetail = () => {
-  const {id} = useParams()
+  const { id } = useParams();
+  const postId = Number(id);
 
-  const postId = Number(id)
+  const [post, setPost] = useState(null);
 
-  const post = mockCommunity.find((post) => post.id === postId)
-  if(!post){
-    return <div>게시글을 찾을 수 없습니다.</div>
-  }
+  useEffect(() => {
+    const fetchDetail = async () => {
+      try {
+        const data = await getPostDetail(postId);
+        setPost(data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchDetail();
+  }, [postId]);
+
+  const increaseCommentCount = () => {
+    setPost((prev) => ({
+      ...prev,
+      commentCount: prev.commentCount + 1,
+    }));
+  };
+
+  if (!post) return <div>로딩 중...</div>;
 
   return (
     <S.CommunityDetailContainer>
       <PostDetailHeader post={post} />
       <PostContentCard post={post} />
-      <CommentComposer postId={post.id} />
-      <CommentThread comments={post.comments} />
+      <CommentThread postId={post.id} onAddComment={increaseCommentCount} />
       <BackToListButton />
     </S.CommunityDetailContainer>
   );

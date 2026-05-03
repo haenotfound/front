@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import SafetySearchModal from '../../components/modals/SafetySearchModal';
 
+
 const SelectLocation = () => {
   const navigate = useNavigate();
   // 페이지 열자마자 모달창 오픈

@@ -11,6 +11,14 @@ S.CommunityListContainer = styled.div`
   padding: 0 30px 60px 30px;
 `;
 
+S.BlockWrapper = styled.div`
+  position: relative;
+
+  filter: ${({ isBlocked }) => (isBlocked ? "blur(4px)" : "none")};
+  pointer-events: ${({ isBlocked }) => (isBlocked ? "none" : "auto")};
+  user-select: ${({ isBlocked }) => (isBlocked ? "none" : "auto")};
+`;
+
 // RegionNoticeBanner
 
 S.BannerContainer = styled.section`

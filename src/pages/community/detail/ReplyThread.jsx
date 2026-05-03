@@ -1,10 +1,18 @@
-import React from 'react';
+import React from "react";
+import ReplyItem from "./ReplyItem";
+import S from "./style";
 
-const ReplyThread = () => {
+const ReplyThread = ({ replies = [] }) => {
+  if (!replies.length) return null;
+
   return (
-    <div>
-      대댓글 리스트
-    </div>
+    <S.ReplyThreadContainer>
+      {replies.map((reply) => (
+        <div id={`reply-${reply.id}`} key={reply.id}>
+          <ReplyItem reply={reply} />
+        </div>
+      ))}
+    </S.ReplyThreadContainer>
   );
 };
 

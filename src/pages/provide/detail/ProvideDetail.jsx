@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PostDetailHeader from "./PostDetailHeader";
 import PostContentCard from "./PostContentCard";
 import BaseButton from "../../../components/button/BaseButton";
 import S from "./style";
-import { mockPosts } from "../../../mock/mockPosts";
+import { formatDate } from "../../../utils/formatDate";
 
 const ProvideDetail = () => {
   const { id } = useParams();
-  const numericId = Number(id);
 
-  const data = mockPosts.find((post) => post.id === numericId);
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!data) {
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`http://localhost:10000/provide/${id}`);
+
+        if (!res.ok) {
+          throw new Error("API 요청 실패");
+        }
+
+        const data = await res.json();
+        setPost(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (!post) {
     return <div>게시글을 찾을 수 없습니다.</div>;
   }
 
   return (
     <S.ProvideDetailContainer>
       <PostDetailHeader
-        postId={data.id}
-        category={data.category}
-        title={data.title}
-        createdAt={data.createdAt}
-        readCount={data.readCount}
-        likeCount={data.likeCount}
-        bookmarkCount={data.bookmarkCount}
+        postId={post.id}
+        category={post.category}
+        title={post.title}
+        createdAt={formatDate(post.createdAt)}
+        readCount={post.readCount}
+        likeCount={post.likeCount}
+        bookmarkCount={post.bookmarkCount}
+        isLiked={post.isLiked}
+        isBookmarked={post.isBookmarked}
       />
 
-      <PostContentCard contentHtml={data.contentHtml} />
+      <PostContentCard contentHtml={post.contentHtml} />
 
       <Link to="/provide">
         <S.GoToList>

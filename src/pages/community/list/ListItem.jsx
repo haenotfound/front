@@ -31,7 +31,7 @@ const ListItem = ({ post }) => {
 
         <S.Meta>
           <S.MetaText>{region} |</S.MetaText>
-          <S.MetaText>{author} |</S.MetaText>
+          <S.MetaText>{author?.nickname} |</S.MetaText>
           <S.MetaText>{relativeTime}</S.MetaText>
         </S.Meta>
 
